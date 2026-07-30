@@ -1,0 +1,18 @@
+{
+    "configurations": [
+        {
+            "name": "NDS",
+            "compilerPath": "/opt/devkitpro/devkitARM/bin/arm-none-eabi-gcc",
+            "intelliSenseMode": "gcc-arm",
+            "includePath": [
+                "${workspaceFolder}/build",
+                "/opt/devkitpro/libnds/include",
+                "/opt/devkitpro/calico/include",
+                "/opt/devkitpro/devkitARM/arm-none-eabi/include"
+            ],
+            "defines": ["ARM9"],
+            "cStandard": "c17"
+        }
+    ],
+    "version": 4
+}

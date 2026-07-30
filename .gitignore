@@ -1,0 +1,5 @@
+build/
+main
+*.nds
+*.lst
+*.elf
