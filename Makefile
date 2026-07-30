@@ -98,7 +98,7 @@ clean:
 	@rm -fr $(BUILD) $(TARGET).elf $(TARGET).nds $(TARGET).ds.gba
 
 #---------------------------------------------------------------------------------
-test: 
+run: 
 	@/usr/bin/flatpak run --branch=stable --arch=x86_64 --command=melonDS --file-forwarding net.kuribo64.melonDS $(OUTPUT).nds
 
 #---------------------------------------------------------------------------------
