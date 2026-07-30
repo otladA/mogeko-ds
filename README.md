@@ -1,8 +1,8 @@
 # Mogeko DS
 
-DS homebrew recreation of the beginning of Mogeko Castle.
+DS homebrew recreation of Mogeko Castle.
 
-Original game by [Deep-Sea Prisoner](https://deepseaprisoner.com/).
+Original game by [Deep-Sea Prisoner](https://funamusea.itch.io/).
 
 ## Requirements
 

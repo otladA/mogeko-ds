@@ -17,7 +17,7 @@ int main(){
 
     consoleDemoInit();
 
-    char* tmp_str = "Olha so, voce descobriu um segredo gigatonico.aweaeqweqweqweqweqweqweqweqweqweqweqwe..";
+    char* tmp_str = "Olha so, voce descobriu um segredo gigatonico";
 
 	iprintf("      Vambora catatau\n");
 	iprintf("     \x1b[32mwww.devkitpro.org\n");
@@ -34,7 +34,7 @@ int main(){
 
 		touchRead(&touchXY);
 
-		// print at using ansi escape sequence \x1b[line;columnH
+		// print at using ansi escape sequence \x1b[line;column
         iprintf("\x1b[20;0HFrame = %d",frame);
 		iprintf("\x1b[16;0HTouch x = %04X, %04X\n", touchXY.rawx, touchXY.px);
 		iprintf("Touch y = %04X, %04X\n", touchXY.rawy, touchXY.py);
