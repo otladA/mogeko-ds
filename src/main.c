@@ -1,44 +1,33 @@
 #include <nds.h>
 #include <stdio.h>
+#include <calico/nds/irq.h>
+#include <yonaka_bg.h>
 
 #include "console_util.h"
-#include <calico/nds/irq.h>
+#include "yonaka.h"
 
 static volatile int frame = 0;
 
-static void Vblank(){
-    frame += 1;
+void Vblank(){
+	frame += 1;
 }
 
 int main(){
-
-    touchPosition touchXY;
     irqSet(IRQ_VBLANK, Vblank);
 
-    consoleDemoInit();
+	videoSetModeSub(MODE_5_2D | DISPLAY_BG0_ACTIVE | DISPLAY_BG2_ACTIVE);
+	vramSetBankH(VRAM_H_SUB_BG);
 
-    char* tmp_str = "Olha so, voce descobriu um segredo gigatonico";
-
-	iprintf("      Vambora catatau\n");
-	iprintf("     \x1b[32mwww.devkitpro.org\n");
-	iprintf("   \x1b[36;1mwww.drunkencoders.com\x1b[39m");
+	int art = bgInitSub(2, BgType_Bmp8, BgSize_B8_256x256, 0, 0);
+	dmaCopy(yonaka_bgBitmap, bgGetGfxPtr(art), yonaka_bgBitmapLen);
+	dmaCopy(yonaka_bgPal, BG_PALETTE_SUB, yonaka_bgPalLen);
 
 	while(pmMainLoop()) {
-		swiWaitForVBlank();
 		scanKeys();
-
 		int keys = keysDown();
 		if (keys & KEY_START) break;
-        if (keys & KEY_SELECT){ iprintf("\x1b[10;0H%s", tmp_str); }
-        if (keys & KEY_UP){ clearPrint(&tmp_str, 10);}
-
-		touchRead(&touchXY);
-
-		// print at using ansi escape sequence \x1b[line;column
-        iprintf("\x1b[20;0HFrame = %d",frame);
-		iprintf("\x1b[16;0HTouch x = %04X, %04X\n", touchXY.rawx, touchXY.px);
-		iprintf("Touch y = %04X, %04X\n", touchXY.rawy, touchXY.py);
-
+		
+		swiWaitForVBlank();
 	}
     
     return 0;
