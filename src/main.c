@@ -1,10 +1,9 @@
 #include <nds.h>
 #include <stdio.h>
 #include <calico/nds/irq.h>
-#include <yonaka_bg.h>
+#include <yonaka_dialogue.h>
 
 #include "console_util.h"
-#include "yonaka.h"
 
 static volatile int frame = 0;
 
@@ -19,8 +18,8 @@ int main(){
 	vramSetBankH(VRAM_H_SUB_BG);
 
 	int art = bgInitSub(2, BgType_Bmp8, BgSize_B8_256x256, 0, 0);
-	dmaCopy(yonaka_bgBitmap, bgGetGfxPtr(art), yonaka_bgBitmapLen);
-	dmaCopy(yonaka_bgPal, BG_PALETTE_SUB, yonaka_bgPalLen);
+	dmaCopy(yonaka_dialogueBitmap, bgGetGfxPtr(art), yonaka_dialogueBitmapLen);
+	dmaCopy(yonaka_dialoguePal, BG_PALETTE_SUB, yonaka_dialoguePalLen);
 
 	while(pmMainLoop()) {
 		scanKeys();

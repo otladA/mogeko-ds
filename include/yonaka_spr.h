@@ -1,6 +1,6 @@
 #pragma once
 
-#include <yonaka_bg.h>
+#include <yonaka_dialogue.h>
 #include <nds.h>
 
 typedef struct
