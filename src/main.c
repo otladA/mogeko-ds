@@ -14,7 +14,7 @@ void Vblank(){
 int main(){
     irqSet(IRQ_VBLANK, Vblank);
 
-	videoSetModeSub(MODE_5_2D | DISPLAY_BG0_ACTIVE | DISPLAY_BG2_ACTIVE);
+	videoSetModeSub(MODE_5_2D);
 	vramSetBankH(VRAM_H_SUB_BG);
 
 	int art = bgInitSub(2, BgType_Bmp8, BgSize_B8_256x256, 0, 0);
