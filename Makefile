@@ -6,6 +6,14 @@ ifeq ($(strip $(DEVKITARM)),)
 $(error "Please set DEVKITARM in your environment. export DEVKITARM=<path to>devkitARM")
 endif
 
+GAME_ICON ?= $(CURDIR)/icon.bmp
+export GAME_ICON
+
+GAME_TITLE ?= Mogeko Castle
+GAME_SUBTITLE1 ?= Original Game made by:
+GAME_SUBTITLE2 ?= Deep-Sea Prisoner
+export GAME_TITLE GAME_SUBTITLE1 GAME_SUBTITLE2
+
 include $(DEVKITARM)/ds_rules
 
 #---------------------------------------------------------------------------------
@@ -117,14 +125,13 @@ else
 #---------------------------------------------------------------------------------
 # main targets
 #---------------------------------------------------------------------------------
-$(OUTPUT).nds	: 	$(OUTPUT).elf
+$(OUTPUT).nds	: 	$(OUTPUT).elf $(GAME_ICON)
 $(OUTPUT).elf	:	$(OFILES)
 
 #---------------------------------------------------------------------------------
 %.s %.h : %.png
 	grit $< -o$*
 #---------------------------------------------------------------------------------
-
 
 #---------------------------------------------------------------------------------
 %.bin.o	:	%.bin
