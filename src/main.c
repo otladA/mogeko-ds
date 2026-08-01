@@ -15,10 +15,14 @@ int main(){
     irqSet(IRQ_VBLANK, Vblank);
 
 	videoSetModeSub(MODE_5_2D);
-	vramSetBankH(VRAM_H_SUB_BG);
 
-	int art = bgInitSub(2, BgType_Bmp8, BgSize_B8_256x256, 0, 0);
-	dmaCopy(yonaka_dialogueBitmap, bgGetGfxPtr(art), yonaka_dialogueBitmapLen);
+	// For some reason this can run Yonaka Sprite, and not VRAM_H.
+	// Gotta figure it out some day lol
+
+	vramSetBankC(VRAM_C_SUB_BG);
+
+	int dialogue_spr = bgInitSub(2, BgType_Bmp8, BgSize_B8_256x256, 0, 0);
+	dmaCopy(yonaka_dialogueBitmap, bgGetGfxPtr(dialogue_spr), yonaka_dialogueBitmapLen);
 	dmaCopy(yonaka_dialoguePal, BG_PALETTE_SUB, yonaka_dialoguePalLen);
 
 	while(pmMainLoop()) {
