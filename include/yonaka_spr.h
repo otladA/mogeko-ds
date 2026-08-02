@@ -15,4 +15,4 @@ typedef struct
 	int anim_frame;
 }Yonaka;
 
-void initYonaka(Yonaka *sprite, u8* gfx);
+void init_yonaka_spr(Yonaka *sprite, u8* gfx);
