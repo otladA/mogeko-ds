@@ -29,6 +29,7 @@ SOURCES		:=	src
 DATA		:=	data
 INCLUDES	:=	include
 SPRITES		:=  sprites
+MAXMOD_SOUNDBANK := maxmod_data
 
 #---------------------------------------------------------------------------------
 # options for code generation
@@ -47,7 +48,7 @@ LDFLAGS	=	-specs=ds_arm9.specs -g $(ARCH) -Wl,-Map,$(notdir $*.map)
 #---------------------------------------------------------------------------------
 # any extra libraries we wish to link with the project (order is important)
 #---------------------------------------------------------------------------------
-LIBS	:= 	-lnds9
+LIBS	:= 	-lmm9 -lnds9
 
 
 #---------------------------------------------------------------------------------
@@ -74,8 +75,10 @@ export DEPSDIR	:=	$(CURDIR)/$(BUILD)
 CFILES		:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.c)))
 CPPFILES	:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.cpp)))
 SFILES		:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.s)))
-BINFILES	:=	$(foreach dir,$(DATA),$(notdir $(wildcard $(dir)/*.*)))
+BINFILES	:=	$(foreach dir,$(DATA),$(notdir $(wildcard $(dir)/*.*))) soundbank.bin
 SPRITE_FILES   :=  $(foreach dir, $(SPRITES),$(notdir $(wildcard $(dir)/*.png)))
+
+export AUDIOFILES	:=	$(foreach dir,$(notdir $(wildcard $(MAXMOD_SOUNDBANK)/*.*)),$(CURDIR)/$(MAXMOD_SOUNDBANK)/$(dir))
 
 #---------------------------------------------------------------------------------
 # use CXX for linking C++ projects, CC for standard C
@@ -133,8 +136,18 @@ $(OUTPUT).elf	:	$(OFILES)
 	grit $< -o$*
 #---------------------------------------------------------------------------------
 
+
 #---------------------------------------------------------------------------------
-%.bin.o	:	%.bin
+# rule to build soundbank from music files
+#---------------------------------------------------------------------------------
+soundbank.bin soundbank.h : $(AUDIOFILES)
+#---------------------------------------------------------------------------------
+	@mmutil $^ -d -osoundbank.bin -hsoundbank.h
+
+#---------------------------------------------------------------------------------
+# This rule links in binary data with the .bin extension
+#---------------------------------------------------------------------------------
+%.bin.o %_bin.h	:	%.bin
 #---------------------------------------------------------------------------------
 	@echo $(notdir $<)
 	$(bin2o)
