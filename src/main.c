@@ -24,6 +24,11 @@ int main(){
 	vramSetBankA(VRAM_A_MAIN_BG);	// 128kb
 	vramSetBankC(VRAM_C_SUB_BG);	// 128kb
 
+	mmInitDefaultMem((mm_addr)soundbank_bin);
+	// Load the module
+	mmLoad(MOD_MAIN_THEME);
+	mmStart(MOD_MAIN_THEME, MM_PLAY_LOOP);
+
 	// set IDs
 	int cg_spr = bgInit(2, BgType_Bmp8, BgSize_B8_256x256, 0, 0);				// Main
 	int dialogue_art_id = bgInitSub(2, BgType_Bmp8, BgSize_B8_256x256, 0, 0);	// Sub
