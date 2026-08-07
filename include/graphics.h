@@ -18,18 +18,19 @@ typedef struct{
 } Tile;
 
 typedef struct{
-    u32 *data;
+    unsigned int *data;
     u32 length;
 } Bitmap;
 
 typedef struct{
     GfxMode gfx_mode;
     EngineMode engine_mode;
-    u32 *palette_data;
-    u32 palette_len;
+    short unsigned int *palette_data;
+    short unsigned int palette_len;
     BgType type;
     BgSize size;
     int id;
+    int layer;
     int palette_offset;
 
     union{
@@ -39,7 +40,10 @@ typedef struct{
 
 } Background;
 
-void bg_load(int screen, int bg_layer, Background *bg);
-// void bg_fade_out();
-// void bg_fade_in();
-// void bg_transition();
+void bg_load(Background *bg);
+int get_bg_id(Background *bg);
+
+// TODO:
+//      void bg_fade_out();
+//      void bg_fade_in();
+//      void bg_transition();
