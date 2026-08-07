@@ -1,12 +1,9 @@
 #include <nds.h>
-#include <maxmod9.h>
 #include <stdio.h>
 #include <calico/nds/irq.h>
-#include <yonaka_dialogue.h>
-#include <mogebed.h>
 
-#include "soundbank.h"
-#include "soundbank_bin.h"
+#include "backgrounds.h"
+#include "audio.h"
 #include "console_util.h"
 
 static volatile int frame = 0;
@@ -23,18 +20,18 @@ int main(){
 
 	vramSetBankA(VRAM_A_MAIN_BG);	// 128kb
 	vramSetBankC(VRAM_C_SUB_BG);	// 128kb
-
 	mmInitDefaultMem((mm_addr)soundbank_bin);
-	// Load the module
-	mmLoad(MOD_MAIN_THEME);
-	mmStart(MOD_MAIN_THEME, MM_PLAY_LOOP);
+	
+	// -------------
 
-	// set IDs
-	int cg_spr = bgInit(2, BgType_Bmp8, BgSize_B8_256x256, 0, 0);				// Main
-	int dialogue_art_id = bgInitSub(2, BgType_Bmp8, BgSize_B8_256x256, 0, 0);	// Sub
-	int text_id = bgInitSub(0, BgType_Text4bpp, BgSize_T_256x256, 0, 0);		// Sub
+	play_song(MOD_MAIN_THEME, true);
 
-	// Enable console for dialogue
+	Background *mogebed = get_background(BG_MOGEBED);
+	Background *yonaka_idle = get_background(DIAL_YONAKA_IDLE);
+
+	int text_id = bgInitSub(0, BgType_Text4bpp, BgSize_T_256x256, 0, 0); // Sub
+
+	// // Enable console for dialogue
 	PrintConsole text;
 	consoleInit(&text, 0, BgType_Text4bpp, BgSize_T_256x256, 24, 4, false, true);
 
@@ -43,20 +40,16 @@ int main(){
 	
 	bgWindowEnable(text_id, WINDOW_0);
 	bgWindowDisable(text_id, WINDOW_OUT);
-	bgWindowEnable(dialogue_art_id, WINDOW_OUT);
-	bgWindowDisable(dialogue_art_id, WINDOW_0);
+	bgWindowEnable(get_bg_id(yonaka_idle), WINDOW_OUT);
+	bgWindowDisable(get_bg_id(yonaka_idle), WINDOW_0);
 	
 	consoleSelect(&text);
 	iprintf("\x1b[16;11HTEMPLATE TEXT");
 
 	// Write background art for Main + Sub to memory
-	dmaCopy(mogebedBitmap, bgGetGfxPtr(cg_spr), mogebedBitmapLen);
-	dmaCopy(mogebedPal, BG_PALETTE, mogebedPalLen);
 
-	dmaCopy(yonaka_dialogueBitmap, bgGetGfxPtr(dialogue_art_id), yonaka_dialogueBitmapLen);
-	// BG_PALLETE_SUB + 16 --> had to make an offset for 16 bytes for dialogue text
-	// Managed to create that offset from .grit file --> gA16
-	dmaCopy(yonaka_dialoguePal, BG_PALETTE_SUB + 16, yonaka_dialoguePalLen);
+	bg_load(mogebed);
+	bg_load(yonaka_idle);
 
 	while(pmMainLoop()) {
 		scanKeys();
