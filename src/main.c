@@ -24,32 +24,39 @@ int main(){
 	
 	// -------------
 
-	play_song(MOD_MAIN_THEME, true);
+	// play_song(MOD_MAIN_THEME, true);
 
-	Background *mogebed = get_background(BG_MOGEBED);
-	Background *yonaka_idle = get_background(DIAL_YONAKA_IDLE);
+	Background *funamusea_logo = get_background(BG_FUNAMUSEA_LOGO);
+	Background *mogeko_warning = get_background(BG_MOGEKO_WARNING);
 
-	int text_id = bgInitSub(0, BgType_Text4bpp, BgSize_T_256x256, 0, 0); // Sub
+	// Background *yonaka_idle = get_background(DIAL_YONAKA_IDLE);
+
+	// int text_id = bgInitSub(0, BgType_Text4bpp, BgSize_T_256x256, 0, 0); // Sub
 
 	// // Enable console for dialogue
-	PrintConsole text;
-	consoleInit(&text, 0, BgType_Text4bpp, BgSize_T_256x256, 24, 4, false, true);
+	// PrintConsole text;
+	// consoleInit(&text, 0, BgType_Text4bpp, BgSize_T_256x256, 24, 4, false, true);
 
-	windowEnableSub(WINDOW_0);
-	windowSetBoundsSub(WINDOW_0, 85, 120, 248, 176);
+	// windowEnableSub(WINDOW_0);
+	// windowSetBoundsSub(WINDOW_0, 85, 120, 248, 176);
 	
-	bgWindowEnable(text_id, WINDOW_0);
-	bgWindowDisable(text_id, WINDOW_OUT);
-	bgWindowEnable(get_bg_id(yonaka_idle), WINDOW_OUT);
-	bgWindowDisable(get_bg_id(yonaka_idle), WINDOW_0);
+	// bgWindowEnable(text_id, WINDOW_0);
+	// bgWindowDisable(text_id, WINDOW_OUT);
+	// bgWindowEnable(get_bg_id(yonaka_idle), WINDOW_OUT);
+	// bgWindowDisable(get_bg_id(yonaka_idle), WINDOW_0);
 	
-	consoleSelect(&text);
-	iprintf("\x1b[16;11HTEMPLATE TEXT");
+	// consoleSelect(&text);
+	// iprintf("\x1b[16;11HTEMPLATE TEXT");
 
 	// Write background art for Main + Sub to memory
 
-	bg_load(mogebed);
-	bg_load(yonaka_idle);
+	bg_load(funamusea_logo);
+	bg_fade_in(MAIN, 3000, 32);
+	bg_fade_out(MAIN, 3000, 32);
+	bg_load(mogeko_warning);
+	bg_fade_in(MAIN, 3000, 64);
+	play_sfx(SFX_MOGEKO_WARNING, 255, CENTER);
+	// bg_load(yonaka_idle);
 
 	while(pmMainLoop()) {
 		scanKeys();
