@@ -10,6 +10,31 @@ typedef enum{
     RIGHT = 255
 } Panning;
 
-void play_song(mm_word song_id, bool loop);
+typedef enum{
+    SFX,
+    SONG
+} AudioType;
 
+typedef struct{
+    mm_sound_effect sound;
+    mm_sfxhand handler;
+} Sfx;
+
+typedef struct{
+    bool loop;
+} Song;
+
+typedef struct{
+    AudioType type; 
+    mm_word id;
+
+    union{
+        Sfx sfx;
+        Song song;
+    };
+
+} Audio;
+
+void play_song(mm_word song_id, bool loop);
 void play_sfx(mm_word sfx_id, int volume, Panning panning);
+void audio_cleanup();
