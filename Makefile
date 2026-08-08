@@ -25,9 +25,9 @@ include $(DEVKITARM)/ds_rules
 #---------------------------------------------------------------------------------
 TARGET		:=	$(shell basename $(CURDIR))
 BUILD		:=	build
-SOURCES		:=	src
+SOURCES		:=	$(shell find src -type d)
 DATA		:=	data
-INCLUDES	:=	include
+INCLUDES	:=	$(shell find include -type d)
 SPRITES		:=  sprites
 MAXMOD_SOUNDBANK := maxmod_data
 
