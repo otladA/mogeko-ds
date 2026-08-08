@@ -8,8 +8,9 @@ typedef enum{
 } GfxMode;
 
 typedef enum{
-    MAIN,
-    SUB
+    MAIN = 1,
+    SUB = 2,
+    BOTH = 3
 } EngineMode;
 
 typedef struct{
@@ -42,8 +43,5 @@ typedef struct{
 
 void bg_load(Background *bg);
 int get_bg_id(Background *bg);
-
-// TODO:
-//      void bg_fade_out();
-//      void bg_fade_in();
-//      void bg_transition();
+void bg_fade_in(EngineMode screen, int duration_ms, int fade_steps);
+void bg_fade_out(EngineMode screen, int duration_ms, int fade_steps);

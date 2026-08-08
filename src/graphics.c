@@ -24,6 +24,8 @@ void bg_load(Background *bg){
         default:
             break;
     }
+
+    bgUpdate();
 }
 
 int get_bg_id(Background *bg){
@@ -42,5 +44,33 @@ int get_bg_id(Background *bg){
         default:
             return 0;
             break;
+    }
+}
+
+void bg_fade_in(EngineMode screen, int duration_ms, int fade_steps){
+    int frames = (duration_ms + 8) / 16;
+    int fade_frames = fade_steps;
+    int delay_per_level = frames / fade_frames;
+
+    for (int brightness = -16; brightness <= 0; brightness++){
+        setBrightness(screen, brightness);
+
+        for (int j = 0; j < delay_per_level; j++){
+            swiWaitForVBlank();
+        }
+    }
+
+}
+void bg_fade_out(EngineMode screen, int duration_ms, int fade_steps){
+    int frames = (duration_ms + 8) / 16;
+    int fade_frames = fade_steps;
+    int delay_per_level = frames / fade_frames;
+
+    for (int brightness = 0; brightness >= -16; brightness--){
+        setBrightness(screen, brightness);
+
+        for (int j = 0; j < delay_per_level; j++){
+            swiWaitForVBlank();
+        }
     }
 }
