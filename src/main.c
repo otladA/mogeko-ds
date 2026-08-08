@@ -2,9 +2,9 @@
 #include <stdio.h>
 #include <calico/nds/irq.h>
 
-#include "backgrounds.h"
 #include "audio.h"
-#include "console_util.h"
+#include "intro.h"
+#include "graphics.h"
 
 static volatile int frame = 0;
 
@@ -12,57 +12,70 @@ void Vblank(){
 	frame += 1;
 }
 
-int main(){
-    irqSet(IRQ_VBLANK, Vblank);
+typedef enum{
+	SCENE_INTRO,
+} SceneID;
 
+typedef struct{
+	SceneID current_scene;
+	void* scene_state;
+} GameContext;
+
+void init(GameContext *ctx){
+	irqSet(IRQ_VBLANK, Vblank);
+	mmInitDefaultMem((mm_addr)soundbank_bin);
 	videoSetMode(MODE_5_2D);
 	videoSetModeSub(MODE_5_2D);
 
 	vramSetBankA(VRAM_A_MAIN_BG);	// 128kb
 	vramSetBankC(VRAM_C_SUB_BG);	// 128kb
-	mmInitDefaultMem((mm_addr)soundbank_bin);
-	
-	// -------------
 
-	// play_song(MOD_MAIN_THEME, true);
+	ctx->current_scene = SCENE_INTRO;
+	ctx->scene_state = intro_init();
+}
 
-	Background *funamusea_logo = get_background(BG_FUNAMUSEA_LOGO);
-	Background *mogeko_warning = get_background(BG_MOGEKO_WARNING);
+void scene_change(GameContext *ctx, SceneID new_scene){
+	switch (ctx->current_scene){
+		case SCENE_INTRO:
+			intro_cleanup((IntroState*)ctx->scene_state);
+			break;
 
-	// Background *yonaka_idle = get_background(DIAL_YONAKA_IDLE);
+		default:
+			break;
+	}
 
-	// int text_id = bgInitSub(0, BgType_Text4bpp, BgSize_T_256x256, 0, 0); // Sub
-
-	// // Enable console for dialogue
-	// PrintConsole text;
-	// consoleInit(&text, 0, BgType_Text4bpp, BgSize_T_256x256, 24, 4, false, true);
-
-	// windowEnableSub(WINDOW_0);
-	// windowSetBoundsSub(WINDOW_0, 85, 120, 248, 176);
-	
-	// bgWindowEnable(text_id, WINDOW_0);
-	// bgWindowDisable(text_id, WINDOW_OUT);
-	// bgWindowEnable(get_bg_id(yonaka_idle), WINDOW_OUT);
-	// bgWindowDisable(get_bg_id(yonaka_idle), WINDOW_0);
-	
-	// consoleSelect(&text);
-	// iprintf("\x1b[16;11HTEMPLATE TEXT");
-
-	// Write background art for Main + Sub to memory
-
-	bg_load(funamusea_logo);
-	bg_fade_in(MAIN, 3000, 32);
-	bg_fade_out(MAIN, 3000, 32);
-	bg_load(mogeko_warning);
-	bg_fade_in(MAIN, 3000, 64);
-	play_sfx(SFX_MOGEKO_WARNING, 255, CENTER);
-	// bg_load(yonaka_idle);
-
-	while(pmMainLoop()) {
-		scanKeys();
-		int keys = keysDown();
-		if (keys & KEY_START) break;
+	ctx->current_scene = new_scene;
+	switch (new_scene){
+		case SCENE_INTRO:
+			ctx->scene_state = intro_init();
+			break;
 		
+		default:
+			break;
+	}
+}
+
+void main_update(GameContext *ctx){
+	scanKeys();
+
+	switch(ctx->current_scene){
+		case SCENE_INTRO: {
+			IntroState *intro = (IntroState*)ctx->scene_state;
+			intro_update(intro);
+
+		// TODO:
+		//	if (intro_is_finished(intro))
+		}
+		break;
+	}
+}
+
+int main(){
+	GameContext ctx = {0};
+	init(&ctx);
+	
+	while(pmMainLoop()) {
+		main_update(&ctx);
 		swiWaitForVBlank();
 	}
     
