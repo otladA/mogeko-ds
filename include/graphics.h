@@ -45,3 +45,4 @@ void bg_load(Background *bg);
 int get_bg_id(Background *bg);
 void bg_fade_in(EngineMode screen, int duration_ms, int fade_steps);
 void bg_fade_out(EngineMode screen, int duration_ms, int fade_steps);
+void bg_transition(EngineMode screen, Background *new_bg, int fade_steps);
