@@ -49,6 +49,7 @@ void audio_cleanup(void){
     case SFX:
         mmEffectCancel(current.sfx.handler);
         mmUnloadEffect(current.id);
+        break;
 
     default:
         break;
