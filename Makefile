@@ -45,6 +45,8 @@ CXXFLAGS	:= $(CFLAGS) -fno-rtti -fno-exceptions
 ASFLAGS	:=	-g $(ARCH)
 LDFLAGS	=	-specs=ds_arm9.specs -g $(ARCH) -Wl,-Map,$(notdir $*.map)
 
+GRITFLAGS := -gb -gB8 -gT!
+
 #---------------------------------------------------------------------------------
 # any extra libraries we wish to link with the project (order is important)
 #---------------------------------------------------------------------------------
@@ -133,7 +135,7 @@ $(OUTPUT).elf	:	$(OFILES)
 
 #---------------------------------------------------------------------------------
 %.s %.h : %.png
-	grit $< -o$*
+	grit $< -o$* $(GRITFLAGS)
 #---------------------------------------------------------------------------------
 
 
