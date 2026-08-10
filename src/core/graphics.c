@@ -32,12 +32,12 @@ int get_img_id(Image *img){
 
     switch (img->engine_mode){
         case MAIN:
-            img->id = bgInit(img->layer, img->type, img->size, 0, 0);
+            img->id = bgInit(img->layer, img->type, img->size, img->bitmap.mapbase, img->tile.tilebase);
             return img->id;
             break;
         
         case SUB:
-            img->id = bgInitSub(img->layer, img->type, img->size, 0, 0);
+            img->id = bgInitSub(img->layer, img->type, img->size, img->bitmap.mapbase, img->tile.tilebase);
             return img->id;
             break;
         

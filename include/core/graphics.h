@@ -16,11 +16,13 @@ typedef enum{
 typedef struct{
     u16 *data;
     int count;
+    int tilebase;
 } Tile;
 
 typedef struct{
     unsigned int *data;
     u32 length;
+    int mapbase;
 } Bitmap;
 
 typedef struct{
