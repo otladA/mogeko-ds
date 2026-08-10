@@ -1,7 +1,6 @@
 #include "backgrounds.h"
 
 #include "mogebed.h"
-#include "yonaka_dialogue.h"
 #include "mogeko_warning.h"
 #include "funamusea_logo.h"
 
