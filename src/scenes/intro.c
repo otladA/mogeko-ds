@@ -49,9 +49,11 @@ void intro_update(IntroState *state){
             break;
 
         case INTRO_WARNING:
-            if (state->timer > 650){
+            if (state->timer > 650 || (keysDown() &KEY_A)){
+                audio_cleanup();
                 bg_transition(MAIN, get_background(BG_MOGEBED), 64);
                 bg_transition(SUB, get_background(DIAL_YONAKA_IDLE), 64);
+                play_song(MOD_MAIN_THEME, true);
                 state->state = INTRO_STORY;
                 state->timer = 0;
             }
