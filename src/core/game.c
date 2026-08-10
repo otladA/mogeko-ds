@@ -32,8 +32,9 @@ void game_update(GameContext *ctx){
 			IntroState *intro = (IntroState*)ctx->scene_state;
 			intro_update(intro);
 
-		// TODO:
-		//	if (intro_is_finished(intro))
+			if (intro_is_finished(intro)){
+				intro_cleanup(intro);
+			}
 		}
 		break;
 	}
