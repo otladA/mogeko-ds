@@ -1,8 +1,6 @@
 #pragma once
 
-#include <yonaka_dialogue.h>
 #include <nds.h>
-
 typedef struct
 {
 	int x;
