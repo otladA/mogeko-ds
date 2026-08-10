@@ -28,7 +28,7 @@ BUILD		:=	build
 SOURCES		:=	$(shell find src -type d)
 DATA		:=	data
 INCLUDES	:=	$(shell find include -type d)
-SPRITES		:=  sprites
+GFX	:=  gfx
 MAXMOD_SOUNDBANK := maxmod_data
 
 #---------------------------------------------------------------------------------
@@ -68,7 +68,7 @@ export OUTPUT	:=	$(CURDIR)/$(TARGET)
 
 export VPATH	:=	$(foreach dir,$(SOURCES),$(CURDIR)/$(dir)) \
 					$(foreach dir,$(DATA),$(CURDIR)/$(dir)) \
-					$(foreach dir,$(SPRITES),$(CURDIR)/$(dir))
+					$(foreach dir,$(GFX),$(CURDIR)/$(dir))
 
 export DEPSDIR	:=	$(CURDIR)/$(BUILD)
 
@@ -76,7 +76,7 @@ CFILES		:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.c)))
 CPPFILES	:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.cpp)))
 SFILES		:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.s)))
 BINFILES	:=	$(foreach dir,$(DATA),$(notdir $(wildcard $(dir)/*.*))) soundbank.bin
-SPRITE_FILES   :=  $(foreach dir, $(SPRITES),$(notdir $(wildcard $(dir)/*.png)))
+GFX_FILES   :=  $(foreach dir, $(GFX),$(notdir $(wildcard $(dir)/*.png)))
 
 export AUDIOFILES	:=	$(foreach dir,$(notdir $(wildcard $(MAXMOD_SOUNDBANK)/*.*)),$(CURDIR)/$(MAXMOD_SOUNDBANK)/$(dir))
 
@@ -94,7 +94,7 @@ else
 endif
 #---------------------------------------------------------------------------------
 
-export OFILES	:=	$(SPRITE_FILES:.png=.o) \
+export OFILES	:=	$(GFX_FILES:.png=.o) \
 				$(addsuffix .o,$(BINFILES)) \
 			$(CPPFILES:.cpp=.o) $(CFILES:.c=.o) $(SFILES:.s=.o)
 
