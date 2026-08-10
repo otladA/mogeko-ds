@@ -39,10 +39,10 @@ typedef struct{
         Bitmap bitmap;
     };
 
-} Background;
+} Image;
 
-void bg_load(Background *bg);
-int get_bg_id(Background *bg);
-void bg_fade_in(EngineMode screen, int duration_ms, int fade_steps);
-void bg_fade_out(EngineMode screen, int duration_ms, int fade_steps);
-void bg_transition(EngineMode screen, Background *new_bg, int fade_steps);
+void img_load(Image *img);
+int get_img_id(Image *img);
+void img_fade_in(EngineMode screen, int duration_ms, int fade_steps);
+void img_fade_out(EngineMode screen, int duration_ms, int fade_steps);
+void img_transition(EngineMode screen, Image *new_img, int fade_steps);
