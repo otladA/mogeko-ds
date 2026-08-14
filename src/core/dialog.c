@@ -16,7 +16,7 @@ Dialog *dialog_create(int line_count){
     d->typing_timer = 0;
     d->text_fully_displayed = 0;
     d->typing_speed = TYPING_SPEED;
-    d->typing_sound_id = -1;
+    d->typing_sound_id = SFX_TEXT_BLEEP;
 
     return d;
 }
@@ -72,9 +72,9 @@ void dialog_update(Dialog *dialog){
             dialog->typing_timer = 0;
             dialog->typing_progress++;
 
-            // if (dialog->typing_sound_id >= 0){ 
-            //     play_sfx(dialog->typing_sound_id, 32, CENTER);
-            // }
+            if (dialog->typing_progress % TYPING_BLEEP_INTERVAL == 1){ 
+                play_sfx(dialog->typing_sound_id, 255, CENTER);
+            }
         }
 
         if (keysDown() &KEY_A){

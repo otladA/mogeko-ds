@@ -10,7 +10,8 @@
 #define MAX_CHARS_PER_LINE 19
 #define MAX_TEXT_LINES 3
 
-#define TYPING_SPEED 2;
+#define TYPING_SPEED 2
+#define TYPING_BLEEP_INTERVAL 3
 
 typedef struct{
     const char* speaker;
