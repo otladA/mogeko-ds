@@ -28,14 +28,15 @@ void game_update(GameContext *ctx){
     scanKeys();
 
 	switch(ctx->current_scene){
-		case SCENE_INTRO: {
+		case SCENE_INTRO:
 			IntroState *intro = (IntroState*)ctx->scene_state;
 			intro_update(intro);
 
 			if (intro_is_finished(intro)){
 				intro_cleanup(intro);
 			}
-		}
-		break;
+			
+			break;
+
 	}
 }
