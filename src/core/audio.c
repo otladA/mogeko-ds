@@ -17,26 +17,23 @@ void play_song(mm_word song_id, bool loop){
 }
 
 void play_sfx(mm_word sfx_id, int volume, Panning panning){
-    mmLoadEffect(sfx_id);
+    if (current.type != SFX || current.id != sfx_id){
+        mmLoadEffect(sfx_id);
+    }
 
     mm_sound_effect sfx = {
         { sfx_id },
         (int)(1.0f * (1<<10)),  // rate
-        0,                      // handle
-        volume,                 
+        (current.type == SFX) ? current.sfx.handler : 0, // handle
+        volume,
         panning,
     };
 
-    mm_sfxhand handler;
+    current.sfx.handler = mmEffectEx(&sfx);
+    current.type = SFX;
+    current.id = sfx_id;
+    current.sfx.sound = sfx;
 
-    handler = mmEffectEx(&sfx);
-
-    current = (Audio){
-        .type = SFX,
-        .id = sfx_id,
-        .sfx.sound = sfx,
-        .sfx.handler = handler
-    };
 }
 
 void audio_cleanup(void){
