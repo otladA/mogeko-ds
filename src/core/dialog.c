@@ -42,7 +42,6 @@ void dialog_open(Dialog *dialog, CharacterPortraitId char_id){
     consoleInit(&dialog->console, 0, BgType_Text4bpp, BgSize_T_256x256, 24, 4, false, true);
 
     Image *portrait = get_char_portrait(char_id);
-    dmaCopy(portrait->palette_data, BG_PALETTE_SUB + portrait->palette_offset, portrait->palette_len);
 
     windowEnableSub(WINDOW_0);
     windowSetBoundsSub(WINDOW_0, 85, 120, 248, 176);
@@ -64,6 +63,7 @@ void dialog_update(Dialog *dialog){
 
     DialogLine *line = &dialog->lines[dialog->current_line];
     int text_len = strlen(line->text);
+    img_load(get_char_portrait(line->speaker_id));
 
     if (dialog->typing_progress < text_len){
         dialog->typing_timer++;
@@ -72,9 +72,9 @@ void dialog_update(Dialog *dialog){
             dialog->typing_timer = 0;
             dialog->typing_progress++;
 
-            if (dialog->typing_sound_id >= 0){
-                play_sfx(dialog->typing_sound_id, 64, CENTER);
-            }
+            // if (dialog->typing_sound_id >= 0){ 
+            //     play_sfx(dialog->typing_sound_id, 32, CENTER);
+            // }
         }
 
         if (keysDown() &KEY_A){

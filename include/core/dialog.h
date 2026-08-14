@@ -2,6 +2,7 @@
 
 #include <nds.h>
 #include "characters.h"
+#include <maxmod9.h>
 
 #define MAX_DIALOGS 64
 #define MAX_LINES_PER_DIALOG 20
@@ -29,7 +30,7 @@ typedef struct{
     int typing_timer;
     int text_fully_displayed;
     int typing_speed;
-    int typing_sound_id;
+    mm_word typing_sound_id;
 } Dialog;
 
 Dialog *dialog_create(int line_count);
