@@ -8,12 +8,13 @@
 #include "dialog.h"
 
 static Dialog* intro_dialog = NULL;
+static Dialog* intro_dialog2 = NULL;
+int has_played = 0;
 typedef enum{
     INTRO_LOGO,
     INTRO_WARNING,
     INTRO_STORY,
-    INTRO_DIALOG,
-    INTRO_FADE_OUT,
+    INTRO_STORY_FADE_OUT,
     INTRO_COMPLETE
 } IntroPhase;
 
@@ -48,8 +49,7 @@ void intro_update(IntroState *state){
             if (state->timer > 650 || (keysDown() &KEY_START)){
                 audio_cleanup();
                 img_transition(MAIN, get_background(BG_MOGEBED), 64);
-                img_transition(SUB, (get_char_portrait(YONAKA_IDLE)), 64);
-                play_song(MOD_MAIN_THEME, true);
+                img_transition(SUB, (get_char_portrait(STRANGE_MOGE_IDLE)), 64);
 
                 state->state = INTRO_STORY;
                 state->timer = 0;
@@ -63,56 +63,76 @@ void intro_update(IntroState *state){
                 if (!intro_dialog){
                     intro_dialog = dialog_create(18);
 
-                    dialog_add_line(intro_dialog, "???", "Hey. Can't sleep?", YONAKA);
-                    dialog_add_line(intro_dialog, "???", ".....", YONAKA);
-                    dialog_add_line(intro_dialog, "???", "Did you drink your medicine?", YONAKA);
-                    dialog_add_line(intro_dialog, "???", ".....", YONAKA);
-                    dialog_add_line(intro_dialog, "???", "...I see.", YONAKA);
-                    dialog_add_line(intro_dialog, "???", ".....", YONAKA);
-                    dialog_add_line(intro_dialog, "???", "It's okay. I'm here.", YONAKA);
-                    dialog_add_line(intro_dialog, "???", "...I hope you get better soon.", YONAKA);
-                    dialog_add_line(intro_dialog, "???", ".....", YONAKA);
-                    dialog_add_line(intro_dialog, "???", "...Oh, I know.", YONAKA);
-                    dialog_add_line(intro_dialog, "???", "...I'll read you a story today.", YONAKA);
-                    dialog_add_line(intro_dialog, "???", "What kind, you ask?", YONAKA);
-                    dialog_add_line(intro_dialog, "???", "It's very amusing, sad... violent, pervy.", YONAKA);
-                    dialog_add_line(intro_dialog, "???", "...That kind of story.", YONAKA);
-                    dialog_add_line(intro_dialog, "???", "I think you'll enjoy it, too.", YONAKA);
-                    dialog_add_line(intro_dialog, "???", ".....", YONAKA);
-                    dialog_add_line(intro_dialog, "???", ".....", YONAKA);
-                    dialog_add_line(intro_dialog, "???", "Well then, let's begin.", YONAKA);
+                    dialog_add_line(intro_dialog, "???", "Hey. Can't sleep?", STRANGE_MOGEKO);
+                    dialog_add_line(intro_dialog, "???", ".....", STRANGE_MOGEKO + 1);
+                    dialog_add_line(intro_dialog, "???", "Did you drink your medicine?", STRANGE_MOGEKO);
+                    dialog_add_line(intro_dialog, "???", ".....", STRANGE_MOGEKO + 1);
+                    dialog_add_line(intro_dialog, "???", "...I see.", STRANGE_MOGEKO);
+                    dialog_add_line(intro_dialog, "???", ".....", STRANGE_MOGEKO);
+                    dialog_add_line(intro_dialog, "???", "It's okay. I'm here.", STRANGE_MOGEKO);
+                    dialog_add_line(intro_dialog, "???", "...I hope you get better soon.", STRANGE_MOGEKO);
+                    dialog_add_line(intro_dialog, "???", ".....", STRANGE_MOGEKO + 1);
+                    dialog_add_line(intro_dialog, "???", "...Oh, I know.", STRANGE_MOGEKO);
+                    dialog_add_line(intro_dialog, "???", "...I'll read you a story today.", STRANGE_MOGEKO);
+                    dialog_add_line(intro_dialog, "???", "What kind, you ask?", STRANGE_MOGEKO);
+                    dialog_add_line(intro_dialog, "???", "It's very amusing, sad... violent, pervy.", STRANGE_MOGEKO);
+                    dialog_add_line(intro_dialog, "???", "...That kind of story.", STRANGE_MOGEKO);
+                    dialog_add_line(intro_dialog, "???", "I think you'll enjoy it, too.", STRANGE_MOGEKO);
+                    dialog_add_line(intro_dialog, "???", ".....", STRANGE_MOGEKO + 1);
+                    dialog_add_line(intro_dialog, "???", ".....", STRANGE_MOGEKO + 1);
+                    dialog_add_line(intro_dialog, "???", "Well then, let's begin.", STRANGE_MOGEKO);
 
-                    dialog_open(intro_dialog, YONAKA_IDLE);
+                    dialog_open(intro_dialog, STRANGE_MOGE_IDLE);
                     dialog_render(intro_dialog);
                 }
 
-                state->state = INTRO_DIALOG;
-                state->timer = 0;
-            }
+                dialog_update(intro_dialog);
 
-            break;
-        
-        case INTRO_DIALOG:
-            dialog_update(intro_dialog);
-
-            if (dialog_is_finished(intro_dialog)){
-                dialog_close(intro_dialog);
-                state->state = INTRO_FADE_OUT;
-                state->timer = 0;
+                if (dialog_is_finished(intro_dialog)){
+                    dialog_cleanup(intro_dialog);
+                    intro_dialog = NULL;
+                    state->state = INTRO_STORY_FADE_OUT;
+                    state->timer = 0;
+                }
             }
 
             break;
 
-        case INTRO_FADE_OUT:
-            if (state->timer > 120 && dialog_is_finished(intro_dialog)){
-                img_fade_out(BOTH, 3000, 64);
-                setBrightness(BOTH, -16);
-                state->finished = 1;
-                state->state = INTRO_COMPLETE;
+        case INTRO_STORY_FADE_OUT:
+            if (has_played == 0){
+                img_fade_out(MAIN, 3000, 64);
+                play_sfx(SFX_PAPER01, 255, CENTER);
+                has_played = 1;
+            }
+
+            if (state->timer > 120){
+                if (!intro_dialog2){
+                    intro_dialog2 = dialog_create(3);
+
+                    play_sfx(SFX_ONEPOINT7, 255, CENTER);
+
+                    dialog_add_line(intro_dialog2, "???", "Once upon a time, there was a high schooler", STRANGE_MOGEKO);
+                    dialog_add_line(intro_dialog2, "???", "Her name was Yonaka.", STRANGE_MOGEKO);
+                    dialog_add_line(intro_dialog2, "???", "One day, she took the train...", STRANGE_MOGEKO);
+
+                    dialog_open(intro_dialog2, STRANGE_MOGE_IDLE);
+                    dialog_render(intro_dialog2);
+                }
+
+                dialog_update(intro_dialog2);
+            
+                if (dialog_is_finished(intro_dialog2)){
+                    img_fade_out(SUB, 3000, 64);
+                    dialog_cleanup(intro_dialog2);
+                    state->state = INTRO_COMPLETE;
+                    state->timer = 0;
+                }
             }
             
             break;
+
         case INTRO_COMPLETE:
+            state->finished = 1;
             break;
             
         default:
@@ -127,4 +147,5 @@ int intro_is_finished(IntroState *state){
 void intro_cleanup(IntroState *state){
     audio_cleanup();
     dialog_cleanup(intro_dialog);
+    dialog_cleanup(intro_dialog2);
 }
