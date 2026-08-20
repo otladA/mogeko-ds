@@ -4,6 +4,7 @@
 
 typedef enum{
     BG_FUNAMUSEA_LOGO,
+    BG_TITLE_SCR,
     BG_MOGEKO_WARNING,
     BG_MOGEBED,
 } BackgroundId;

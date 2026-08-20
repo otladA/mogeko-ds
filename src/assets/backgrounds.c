@@ -1,6 +1,7 @@
 #include "backgrounds.h"
 
 #include "mogebed.h"
+#include "title.h"
 #include "mogeko_warning.h"
 #include "funamusea_logo.h"
 
@@ -10,6 +11,13 @@ Image bg_registry[] = {
         .type = BgType_Bmp8, .size = BgSize_B8_256x256,
         .palette_data = funamusea_logoPal, .palette_len = funamusea_logoPalLen,
         .bitmap = {funamusea_logoBitmap, funamusea_logoBitmapLen, 0},
+    },
+
+    [BG_TITLE_SCR] = {
+        .gfx_mode = GFX_MODE_BITMAP, .engine_mode = MAIN, .layer = 2,
+        .type = BgType_Bmp8, .size = BgSize_B8_256x256,
+        .palette_data = titlePal, .palette_len = titlePalLen,
+        .bitmap = {titleBitmap, titleBitmapLen, 0},
     },
 
     [BG_MOGEKO_WARNING] = {
