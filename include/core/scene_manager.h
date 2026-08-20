@@ -3,6 +3,7 @@
 typedef struct GameContext GameContext;
 
 typedef enum{
+    SCENE_TITLE_SCR,
 	SCENE_INTRO,
     // Will add more as the game progresses
 } SceneID;
