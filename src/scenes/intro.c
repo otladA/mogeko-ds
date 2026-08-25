@@ -9,7 +9,7 @@
 
 static Dialog* intro_dialog = NULL;
 static Dialog* intro_dialog2 = NULL;
-int has_played = 0;
+static int has_played = 0;
 typedef enum{
     INTRO_LOGO,
     INTRO_WARNING,
