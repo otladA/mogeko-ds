@@ -28,7 +28,9 @@ BUILD		:=	build
 SOURCES		:=	$(shell find src -type d)
 DATA		:=	data
 INCLUDES	:=	$(shell find include -type d)
+
 GFX	:=  gfx
+
 MAXMOD_SOUNDBANK := maxmod_data
 
 #---------------------------------------------------------------------------------
@@ -44,8 +46,6 @@ CXXFLAGS	:= $(CFLAGS) -fno-rtti -fno-exceptions
 
 ASFLAGS	:=	-g $(ARCH)
 LDFLAGS	=	-specs=ds_arm9.specs -g $(ARCH) -Wl,-Map,$(notdir $*.map)
-
-GRITFLAGS := -gb -gB8 -gT!
 
 #---------------------------------------------------------------------------------
 # any extra libraries we wish to link with the project (order is important)
@@ -78,7 +78,12 @@ CFILES		:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.c)))
 CPPFILES	:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.cpp)))
 SFILES		:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.s)))
 BINFILES	:=	$(foreach dir,$(DATA),$(notdir $(wildcard $(dir)/*.*))) soundbank.bin
-GFX_FILES   :=  $(foreach dir, $(GFX),$(notdir $(wildcard $(dir)/*.png)))
+
+ALL_PNGS	:= $(shell find $(GFX) -name '*.png' -type f)
+GFX_FILES	:= $(notdir $(ALL_PNGS))
+
+GFX_DIRS	:= $(sort $(dir $(ALL_PNGS)))
+VPATH		+= $(foreach dir,$(GFX_DIRS),$(CURDIR)/$(dir))
 
 export AUDIOFILES	:=	$(foreach dir,$(notdir $(wildcard $(MAXMOD_SOUNDBANK)/*.*)),$(CURDIR)/$(MAXMOD_SOUNDBANK)/$(dir))
 
@@ -135,7 +140,7 @@ $(OUTPUT).elf	:	$(OFILES)
 
 #---------------------------------------------------------------------------------
 %.s %.h : %.png
-	grit $< -o$* $(GRITFLAGS)
+	grit $< -o$* $(if $(findstring gfx/bg/, $<), -gb -gb8 -gT!, -gt -gB4 -pn16)
 #---------------------------------------------------------------------------------
 
 
