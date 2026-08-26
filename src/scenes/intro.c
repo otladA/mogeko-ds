@@ -7,15 +7,19 @@
 #include "characters.h"
 #include "dialog.h"
 
-static Dialog* intro_dialog = NULL;
-static Dialog* intro_dialog2 = NULL;
-static int has_played = 0;
+static Dialog* intro_dialog = NULL;     ///< First dialog (18-line story intro).
+static Dialog* intro_dialog2 = NULL;    ///< Second dialog (3-line story setup).
+static int has_played = 0;              ///< Prevents re-triggering fade-out SFX.
+
+/**
+ * @brief Internal phases of intro sequence.
+ */
 typedef enum{
-    INTRO_LOGO,
-    INTRO_WARNING,
-    INTRO_STORY,
-    INTRO_STORY_FADE_OUT,
-    INTRO_COMPLETE
+    INTRO_LOGO,             ///< Funamusea logo with fade-in.
+    INTRO_WARNING,          ///< Mogeko warning screen.
+    INTRO_STORY,            ///< Main dialog with Strange Mogeko (18 lines).
+    INTRO_STORY_FADE_OUT,   ///< Fade to black + closing dialog (3 lines).
+    INTRO_COMPLETE          ///< All done.
 } IntroPhase;
 
 static IntroState intro_state = {0};

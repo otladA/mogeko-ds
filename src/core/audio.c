@@ -2,15 +2,6 @@
 
 static Audio current;
 
-/**
- * @brief Loads and plays a .MOD Music Track.
- * 
- * Stops any currently playing music before starting the new track
- * to prevent overlapping playback.
- * 
- * @param song_id Identifier of the .MOD song to play (from soundbank).
- * @param loop If true, the song loops indefinitely; if false, plays once.
- */
 void play_song(mm_word song_id, bool loop){
     // Stop any music currently playing to avoid overlapping
     mmStop();
@@ -25,18 +16,6 @@ void play_song(mm_word song_id, bool loop){
     };
 }
 
-/**
- * @brief Plays a short .WAV sound effect.
- * 
- * Loads the effect on first use and reuses the handler for subsequent
- * plays of the same effect. Only one SFX is tracked at a time.
- * 
- * @param sfx_id    Identifier of the .WAV effect to play (from soundbank).
- * 
- * @param volume Playback volume. Range: 0 (silent) to 255 (max).
- * @param panning Stereo panning position. Accepts LEFT, CENTER, or RIGHT
- * (defined in Panning enum).
- */
 void play_sfx(mm_word sfx_id, int volume, Panning panning){
     if (current.type != SFX || current.id != sfx_id){
         mmLoadEffect(sfx_id);
