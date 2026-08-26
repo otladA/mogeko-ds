@@ -3,7 +3,7 @@
   Mogeko DS
 </h1>
 
-<h4 align="center">A Nintendo DS homebrew recreation of <a href="https://funamusea.com/" target="_blank">Mogeko Castle</a>.</h4>
+<h4 align="center">A Nintendo DS homebrew recreation of <a href="http://funamusea.com/" target="_blank">Mogeko Castle</a>.</h4>
 
 <p align="center">
   <a href="https://www.gnu.org/licenses/gpl-3.0">
