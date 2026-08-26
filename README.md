@@ -28,8 +28,6 @@
 
 <p align="center">
   <img src="assets/screenshot.png" alt="Mogeko DS Screenshot" width="400">
-  <br>
-  <em>Title screen running on melonDS</em>
 </p>
 
 ---
