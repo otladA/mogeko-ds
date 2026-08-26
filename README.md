@@ -2,13 +2,6 @@
   <img src="assets/mogeko-castle-ds.png" alt="Mogeko Castle DS" width="300">
 </p>
 
-<<<<<<< HEAD
-<h1 align="center">
-  Mogeko DS
-</h1>
-
-=======
->>>>>>> 6687c82 (add logo to README)
 <h4 align="center">A Nintendo DS homebrew recreation of <a href="http://funamusea.com/" target="_blank">Mogeko Castle</a>.</h4>
 
 <p align="center">
