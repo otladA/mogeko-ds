@@ -29,6 +29,9 @@ void img_load(Image *img){
 }
 
 int get_img_id(Image *img){
+    if (img == NULL){
+        return 0;
+    }
 
     switch (img->engine_mode){
         case MAIN:
@@ -76,6 +79,10 @@ void img_fade_out(EngineMode screen, int duration_ms, int fade_steps){
 }
 
 void img_transition(EngineMode screen, Image *new_img, int fade_steps){
+    if (new_img == NULL){
+        return;
+    }
+
     img_fade_out(screen, 3000, fade_steps);
     img_load(new_img);
     img_fade_in(screen, 3000, fade_steps);
