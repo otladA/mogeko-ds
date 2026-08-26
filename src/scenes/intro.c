@@ -33,6 +33,7 @@ IntroState *intro_init(void){
 
 void intro_update(IntroState *state){
     state->timer++;
+    scanKeys();
 
     switch(state->state){
         case INTRO_LOGO:
