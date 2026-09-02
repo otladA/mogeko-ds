@@ -1,5 +1,4 @@
 #include <nds.h>
-#include <calico/nds/irq.h>
 
 #include <audio.h>
 #include <game.h>
@@ -13,7 +12,6 @@ void Vblank(){
 }
 
 void game_init(GameContext *ctx){
-	irqSet(IRQ_VBLANK, Vblank);
 	mmInitDefaultMem((mm_addr)soundbank_bin);
 	videoSetMode(MODE_5_2D);
 	videoSetModeSub(MODE_5_2D);
