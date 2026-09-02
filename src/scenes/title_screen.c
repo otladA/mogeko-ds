@@ -18,7 +18,7 @@ TitleState *title_init(void){
     title_state.cursor = 0;
 
     img_load(get_background(BG_TITLE_SCR));
-    img_fade(MAIN, 3000, 64, IMG_FADE_IN);
+    img_fade(MAIN, DEFAULT_FADE_DURATION_MS, DEFAULT_FADE_STEPS, IMG_FADE_IN);
     play_song(MOD_MAIN_THEME, true);
 
     uint16_t *ng_gfx = oamAllocateGfx(&oamMain, SpriteSize_64x32, SpriteColorFormat_16Color);
