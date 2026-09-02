@@ -7,6 +7,11 @@
 
 #include <nds.h>
 
+/** @brief Default fade duration in milliseconds */
+#define DEFAULT_FADE_DURATION_MS 3000
+/** @brief Default brightness levels used during a fade */
+#define DEFAULT_FADE_STEPS        64
+
 /**
  * @brief Graphics rendering mode.
  * @warning Tile-based background mode not functional.
@@ -17,7 +22,7 @@ typedef enum{
 } GfxMode;
 
 /**
- * @brief Target engine screen
+ * @brief Target engine screen.
  */
 typedef enum{
     MAIN = 1,   ///< Main engine (top screen).

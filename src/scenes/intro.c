@@ -30,7 +30,7 @@ IntroState *intro_init(void){
     intro_state.finished = 0;
 
     img_load(get_background(BG_FUNAMUSEA_LOGO));
-    img_fade(MAIN, 3000, 64, IMG_FADE_IN);
+    img_fade(MAIN, DEFAULT_FADE_DURATION_MS, DEFAULT_FADE_STEPS, IMG_FADE_IN);
 
     return &intro_state;
 }
@@ -42,8 +42,8 @@ void intro_update(IntroState *state){
     switch(state->state){
         case INTRO_LOGO:
             if (state->timer > 120 || (keysDown() &KEY_START)){
-                img_transition(MAIN, get_background(BG_MOGEKO_WARNING), 64);
-                play_sfx(SFX_MOGEKO_WARNING, 255, CENTER);
+                img_transition(MAIN, get_background(BG_MOGEKO_WARNING), DEFAULT_FADE_STEPS);
+                play_sfx(SFX_MOGEKO_WARNING, MAX_VOLUME, CENTER);
                 state->state = INTRO_WARNING;
                 state->timer = 0;
             }
@@ -53,8 +53,8 @@ void intro_update(IntroState *state){
         case INTRO_WARNING:
             if (state->timer > 650 || (keysDown() &KEY_START)){
                 audio_cleanup();
-                img_transition(MAIN, get_background(BG_MOGEBED), 64);
-                img_transition(SUB, (get_char_portrait(STRANGE_MOGE_IDLE)), 64);
+                img_transition(MAIN, get_background(BG_MOGEBED), DEFAULT_FADE_STEPS);
+                img_transition(SUB, (get_char_portrait(STRANGE_MOGE_IDLE)), DEFAULT_FADE_STEPS);
 
                 state->state = INTRO_STORY;
                 state->timer = 0;
@@ -104,8 +104,8 @@ void intro_update(IntroState *state){
 
         case INTRO_STORY_FADE_OUT:
             if (has_played == 0){
-                img_fade(MAIN, 3000, 64, IMG_FADE_OUT);
-                play_sfx(SFX_PAPER01, 255, CENTER);
+                img_fade(MAIN, DEFAULT_FADE_DURATION_MS, DEFAULT_FADE_STEPS, IMG_FADE_OUT);
+                play_sfx(SFX_PAPER01, MAX_VOLUME, CENTER);
                 has_played = 1;
             }
 
@@ -113,7 +113,7 @@ void intro_update(IntroState *state){
                 if (!intro_dialog2){
                     intro_dialog2 = dialog_create(3);
 
-                    play_sfx(SFX_ONEPOINT7, 255, CENTER);
+                    play_sfx(SFX_ONEPOINT7, MAX_VOLUME, CENTER);
 
                     dialog_add_line(intro_dialog2, "???", "Once upon a time, there was a high schooler", STRANGE_MOGEKO);
                     dialog_add_line(intro_dialog2, "???", "Her name was Yonaka.", STRANGE_MOGEKO);
@@ -126,7 +126,7 @@ void intro_update(IntroState *state){
                 dialog_update(intro_dialog2);
             
                 if (dialog_is_finished(intro_dialog2)){
-                    img_fade(SUB, 3000, 64, IMG_FADE_OUT);
+                    img_fade(SUB, DEFAULT_FADE_DURATION_MS, DEFAULT_FADE_STEPS, IMG_FADE_OUT);
                     dialog_cleanup(&intro_dialog2);
                     state->state = INTRO_COMPLETE;
                     state->timer = 0;

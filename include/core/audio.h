@@ -9,6 +9,8 @@
 #include "soundbank.h"
 #include "soundbank_bin.h"
 
+#define MAX_VOLUME 255
+
 /**
  * @brief Stereo panning position for audio output.
  */

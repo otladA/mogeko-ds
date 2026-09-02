@@ -95,7 +95,7 @@ void img_transition(EngineMode screen, Image *new_img, int fade_steps){
         return;
     }
 
-    img_fade(screen, 3000, fade_steps, IMG_FADE_OUT);
+    img_fade(screen, DEFAULT_FADE_DURATION_MS, fade_steps, IMG_FADE_OUT);
     img_load(new_img);
-    img_fade(screen, 3000, fade_steps, IMG_FADE_IN);
+    img_fade(screen, DEFAULT_FADE_DURATION_MS, fade_steps, IMG_FADE_IN);
 }
