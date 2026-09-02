@@ -158,13 +158,16 @@ void dialog_close(Dialog *dialog);
 /**
  * @brief Close and free all dialog memory.
  * 
- * Calls dialog_close() internally, then frees the Dialog pointer.
+ * Calls dialog_close() internally, then frees the Dialog and
+ * sets the caller's pointer to NULL.
  * 
- * @warning The Dialog pointer is invalid after this call.
+ * @warning The Dialog pointer is freed and the caller's pointer
+ * becomes NULL after this call; passing it to any other dialog
+ * function will crash.
  * 
- * @param dialog Pointer to the Dialog to destroy.
+ * @param dialog Pointer to the caller's Dialog pointer to destroy.
  */
-void dialog_cleanup(Dialog *dialog);
+void dialog_cleanup(Dialog **dialog);
 
 /**
  * @brief Set the typing speed for a dialog.

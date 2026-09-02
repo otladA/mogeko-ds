@@ -170,7 +170,11 @@ void dialog_set_typing_speed(Dialog *dialog, int speed){
 void dialog_set_typing_sound(Dialog *dialog, int sound_id){
     dialog->typing_sound_id = sound_id;
 }
-void dialog_cleanup(Dialog *dialog){
-    dialog_close(dialog);
-    free(dialog);
+void dialog_cleanup(Dialog **dialog){
+    if (dialog == NULL || *dialog == NULL) return;
+
+    dialog_close(*dialog);
+    free(*dialog);
+
+    *dialog = NULL;
 }

@@ -94,8 +94,7 @@ void intro_update(IntroState *state){
                 dialog_update(intro_dialog);
 
                 if (dialog_is_finished(intro_dialog)){
-                    dialog_cleanup(intro_dialog);
-                    intro_dialog = NULL;
+                    dialog_cleanup(&intro_dialog);
                     state->state = INTRO_STORY_FADE_OUT;
                     state->timer = 0;
                 }
@@ -128,7 +127,7 @@ void intro_update(IntroState *state){
             
                 if (dialog_is_finished(intro_dialog2)){
                     img_fade_out(SUB, 3000, 64);
-                    dialog_cleanup(intro_dialog2);
+                    dialog_cleanup(&intro_dialog2);
                     state->state = INTRO_COMPLETE;
                     state->timer = 0;
                 }
@@ -151,6 +150,6 @@ int intro_is_finished(IntroState *state){
 
 void intro_cleanup(IntroState *state){
     audio_cleanup();
-    dialog_cleanup(intro_dialog);
-    dialog_cleanup(intro_dialog2);
+    dialog_cleanup(&intro_dialog);
+    dialog_cleanup(&intro_dialog2);
 }
