@@ -50,32 +50,44 @@ int get_img_id(Image *img){
     }
 }
 
-void img_fade_in(EngineMode screen, int duration_ms, int fade_steps){
+/*
+    TODO: turn img_fade_out and img_fade_in into one img_fade function.
+*/
+
+void img_fade(EngineMode screen, int duration_ms, int fade_steps, FadeDirection direction){
     int frames = (duration_ms + 8) / 16;
     int fade_frames = fade_steps;
     int delay_per_level = frames / fade_frames;
 
-    for (int brightness = -16; brightness <= 0; brightness++){
-        setBrightness(screen, brightness);
+    switch(direction){
+        case IMG_FADE_IN:
+            for (int brightness = -16; brightness <= 0; brightness++){
+                setBrightness(screen, brightness);
 
-        for (int j = 0; j < delay_per_level; j++){
-            swiWaitForVBlank();
-        }
+                for (int j = 0; j < delay_per_level; j++){
+                    swiWaitForVBlank();
+                }
+            }
+
+            break;
+
+        case IMG_FADE_OUT:
+            for (int brightness = 0; brightness >= -16; brightness--){
+                setBrightness(screen, brightness);
+
+                for (int j = 0; j < delay_per_level; j++){
+                    swiWaitForVBlank();
+                }
+            }
+
+            break;
+
+        default:
+            return;
+            break;
     }
+    
 
-}
-void img_fade_out(EngineMode screen, int duration_ms, int fade_steps){
-    int frames = (duration_ms + 8) / 16;
-    int fade_frames = fade_steps;
-    int delay_per_level = frames / fade_frames;
-
-    for (int brightness = 0; brightness >= -16; brightness--){
-        setBrightness(screen, brightness);
-
-        for (int j = 0; j < delay_per_level; j++){
-            swiWaitForVBlank();
-        }
-    }
 }
 
 void img_transition(EngineMode screen, Image *new_img, int fade_steps){
@@ -83,7 +95,7 @@ void img_transition(EngineMode screen, Image *new_img, int fade_steps){
         return;
     }
 
-    img_fade_out(screen, 3000, fade_steps);
+    img_fade(screen, 3000, fade_steps, IMG_FADE_OUT);
     img_load(new_img);
-    img_fade_in(screen, 3000, fade_steps);
+    img_fade(screen, 3000, fade_steps, IMG_FADE_IN);
 }

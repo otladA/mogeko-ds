@@ -25,6 +25,11 @@ typedef enum{
     BOTH = 3    ///< Both engines.
 } EngineMode;
 
+typedef enum{
+    IMG_FADE_IN,
+    IMG_FADE_OUT
+} FadeDirection;
+
 /**
  * @brief Tile-based graphic data
  */
@@ -87,31 +92,19 @@ void img_load(Image *img);
 int get_img_id(Image *img);
 
 /**
- * @brief Fade in a screen from black.
+ * @brief Fade a screen to or from black.
  * 
- * Brightness ramps from -16 (black) to 0 (normal) in
- * 17 discreete steps, waiting ~16ms per VBlank between each.
+ * Ramps the screen brightness across 17 discrete steps, waiting ~16ms
+ * per VBlank between each. Direction is chosen via @p direction.
  * 
- * Typical usage: img_fade_in(MAIN, 3000, 64).
- * 
- * @param screen        Target engine (MAIN, SUB, or BOTH).
- * @param duration_ms   Approximate duration in milliseconds.
- * @param fade_steps    Delay per brightness level (in VBlank counts).
- */
-void img_fade_in(EngineMode screen, int duration_ms, int fade_steps);
-
-/**
- * @brief Fade out a screen to black.
- * 
- * Ramps brightness from 0 (normal) to -16 (fully black) in
- * 17 discrete steps, waiting ~16ms per VBlank between each.
- * Typical usage img_fade_out(MAIN, 3000, 64).
+ * Typical usage: img_fade(MAIN, 3000, 64, IMG_FADE_IN).
  * 
  * @param screen        Target engine (MAIN, SUB, or BOTH).
  * @param duration_ms   Approximate duration in milliseconds.
- * @param fade_steps    Delay per brightness level (in VBlank counts).
+ * @param fade_steps    Delay per brightness (in VBlank counts). 
+ * @param direction     IMG_FADE_IN to fade from black, IMG_FADE_OUT to fade to black.
  */
-void img_fade_out(EngineMode screen, int duration_ms, int fade_steps);
+void img_fade(EngineMode screen, int duration_ms, int fade_steps, FadeDirection direction);
 
 /**
  * @brief Transition between two images with a fade effect.

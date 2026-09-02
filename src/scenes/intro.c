@@ -30,7 +30,7 @@ IntroState *intro_init(void){
     intro_state.finished = 0;
 
     img_load(get_background(BG_FUNAMUSEA_LOGO));
-    img_fade_in(MAIN, 3000, 64);
+    img_fade(MAIN, 3000, 64, IMG_FADE_IN);
 
     return &intro_state;
 }
@@ -104,7 +104,7 @@ void intro_update(IntroState *state){
 
         case INTRO_STORY_FADE_OUT:
             if (has_played == 0){
-                img_fade_out(MAIN, 3000, 64);
+                img_fade(MAIN, 3000, 64, IMG_FADE_OUT);
                 play_sfx(SFX_PAPER01, 255, CENTER);
                 has_played = 1;
             }
@@ -126,7 +126,7 @@ void intro_update(IntroState *state){
                 dialog_update(intro_dialog2);
             
                 if (dialog_is_finished(intro_dialog2)){
-                    img_fade_out(SUB, 3000, 64);
+                    img_fade(SUB, 3000, 64, IMG_FADE_OUT);
                     dialog_cleanup(&intro_dialog2);
                     state->state = INTRO_COMPLETE;
                     state->timer = 0;
