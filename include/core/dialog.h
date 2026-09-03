@@ -9,14 +9,8 @@
 #include "characters.h"
 #include <maxmod9.h>
 
-/** @brief Maximum number of dialog instances that can exist */
-#define MAX_DIALOGS 64
-
 /** @brief Maximum lines a single Dialog can hold. */
 #define MAX_LINES_PER_DIALOG 20
-
-/** @brief Maximum length of a single dialog line string */
-#define MAX_DIALOGUE_LENGTH 256
 
 /** @brief Characters per line before automatic word wrap */
 #define MAX_CHARS_PER_LINE 19
