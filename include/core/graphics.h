@@ -114,8 +114,8 @@ void img_fade(EngineMode screen, int duration_ms, int fade_steps, FadeDirection 
 /**
  * @brief Transition between two images with a fade effect.
  * 
- * Calls img_fade_out() (3000ms), loads the new image via img_load(),
- * then calls img_fade_in() (3000ms). Does nothing if @p new_img is NULL.
+ * Calls img_fade_out(), loads the new image via img_load(),
+ * then calls img_fade_in(). Does nothing if @p new_img is NULL.
  * 
  * Typical usage: img_transition(MAIN, get_background(BG_MOGEKO_WARNING), 64).
  * 
