@@ -50,10 +50,6 @@ int get_img_id(Image *img){
     }
 }
 
-/*
-    TODO: turn img_fade_out and img_fade_in into one img_fade function.
-*/
-
 void img_fade(EngineMode screen, int duration_ms, int fade_steps, FadeDirection direction){
     int frames = (duration_ms + 8) / 16;
     int fade_frames = fade_steps;
